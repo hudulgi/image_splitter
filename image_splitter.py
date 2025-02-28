@@ -56,15 +56,15 @@ def image_seperator(_image_path):
 
     # 결과(오버레이 포함) 이미지 저장
     _name, _ext = os.path.splitext(os.path.basename(_image_path))
+    os.makedirs(overlay_output_path, exist_ok=True)  # 폴더가 없으면 생성 (이미 존재하면 오류 발생하지 않음)
+
     cv2.imwrite(os.path.join(overlay_output_path, f'{_name}_overlay.{_ext}'), img)
     print(f"overlay 이미지가 {overlay_output_path}에 저장되었습니다.")
 
     # 좌측과 우측 영역을 원본 이미지에서 잘라서 별도의 파일로 저장
     left_region = original_img[0:height, left_crop_x_start:left_crop_x_end]
     right_region = original_img[0:height, right_crop_x_start:right_crop_x_end]
-
-    # 폴더가 없으면 생성 (이미 존재하면 오류 발생하지 않음)
-    os.makedirs(split_output_path, exist_ok=True)
+    os.makedirs(split_output_path, exist_ok=True)  # 폴더가 없으면 생성 (이미 존재하면 오류 발생하지 않음)
 
     cv2.imwrite(os.path.join(split_output_path, f'{_name}_l.{_ext}'), left_region, [cv2.IMWRITE_JPEG_QUALITY, 100])
     print(f"좌측 영역 이미지가 {split_output_path}에 저장되었습니다.")
